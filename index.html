@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MCPE Morph Addon Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="description" content="Generate a Minecraft Bedrock Morph Add-on with a clock-triggered morph menu. Download a .mcaddon ready to import.">
+</head>
+<body>
+  <header class="container header">
+    <h1>MCPE Morph Add-on</h1>
+    <p class="subtitle">Clock-triggered morph menu. Become any mob. Download as .mcaddon</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Choose default morphs</h2>
+      <p>These will appear in the in-game morph menu when you use a clock.</p>
+      <div id="default-morphs" class="morph-grid"></div>
+    </section>
+
+    <section class="card">
+      <h2>Add custom mobs</h2>
+      <p>Enter additional entities by identifier (e.g. <code>minecraft:warden</code>) and a label shown in the menu.</p>
+      <div class="custom-form">
+        <input id="custom-id" type="text" placeholder="minecraft:entity_id" />
+        <input id="custom-label" type="text" placeholder="Display label (e.g. Warden)" />
+        <button id="add-custom" class="btn">Add mob</button>
+      </div>
+      <ul id="custom-list" class="tag-list"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Generate Add-on</h2>
+      <p>The generator builds a .mcaddon (behavior + resource packs) in your browser.</p>
+      <div class="actions">
+        <button id="generate" class="btn btn-primary">Download Morph Add-on (.mcaddon)</button>
+      </div>
+      <details class="notes">
+        <summary>Notes</summary>
+        <ul>
+          <li>Use a clock in-game to open the Morph menu.</li>
+          <li>Player becomes invisible; a synced mob mirrors you for visuals and basic abilities.</li>
+          <li>Some abilities are simulated (e.g., Creeper explosion on sneak).</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="card" id="guide">
+      <h2>How to add more mobs later</h2>
+      <ol>
+        <li>Re-open this page.</li>
+        <li>Add your mobs in the "Add custom mobs" section.</li>
+        <li>Re-generate the .mcaddon and import into Minecraft.</li>
+      </ol>
+      <h3>What counts as a valid mob?</h3>
+      <p>Any entity identifier available in your version, for example: <code>minecraft:zombie</code>, <code>minecraft:creeper</code>, <code>minecraft:skeleton</code>, <code>minecraft:spider</code>, <code>minecraft:enderman</code>, <code>minecraft:slime</code>, <code>minecraft:witch</code>, <code>minecraft:villager</code>, etc.</p>
+      <h3>Advanced: Editing the morph list inside the add-on</h3>
+      <p>The behavior pack script embeds the morph list at build time. To change it without re-downloading:</p>
+      <ol>
+        <li>Unzip the imported behavior pack.</li>
+        <li>Open <code>scripts/server.js</code>.</li>
+        <li>Find <code>const MORPHS = [...]</code> and replace with your updated list:</li>
+      </ol>
+      <pre><code>const MORPHS = [
+  { id: "minecraft:zombie", label: "Zombie" },
+  { id: "minecraft:warden", label: "Warden" }
+];</code></pre>
+      <p>Zip the behavior and resource pack directories back into a single <code>.mcaddon</code> and re-import.</p>
+      <h3>Troubleshooting</h3>
+      <ul>
+        <li>If the clock does nothing, enable experimental features for scripting in your world settings.</li>
+        <li>If AI fights your movement, the script forces the morphed mob to follow you each tick.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <p>Built for Bedrock Edition. This generator runs entirely client-side.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-0LP3wzY44Jk6TEHh0mD4WvSRIE9lJ1kUCUPH2EETCPmMU8dWHRa1gN3XgG1h9fK1P7M2yQH+gqVg1G+Ql5rZ2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" integrity="sha512-5x3b+Yv1s5tiTnYBqvKyXjH9MuquxYZc13JUO2c+hJ1ytYgbVVwKf70LtW1E58uB9Uj3N1S1l6CwQ1Qe7Zx2gA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
